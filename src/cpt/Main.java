@@ -32,7 +32,7 @@ public void start(Stage stage) {
     XYChart.Series<Number, Number> originalData = new XYChart.Series<>();
 
     // Create the x-axis for scatter chart
-    NumberAxis xAxis = new NumberAxis("Ranking", 0.0d,80.0d, 1.0d );
+    NumberAxis xAxis = new NumberAxis("Ranking", 0.0d,85.0d, 1.0d );
 
     // Create the y-axis for scatter chart
     NumberAxis yAxis = new NumberAxis("SPI Rating", 0.0d, 100.0d, 10.0d);
@@ -47,28 +47,28 @@ public void start(Stage stage) {
     // Use CSVreader to add data to a list
     List<DataBase> dataBaseList = reader.read("src/cpt/spi_global_rankings.csv");
 
-    // Create a set to hold the unique teams
-    Set<String> teamsSet = new HashSet<>();
+    // Create a set to hold the unique names
+    Set<String> namesSet = new HashSet<>();
     for (DataBase player : dataBaseList) {
-        teamsSet.add(player.getName());
+        namesSet.add(player.getName());
     }
 
     // Convert the set to a list
-    List<String> teamsList = new ArrayList<>(teamsSet);
+    List<String> namesList = new ArrayList<>(namesSet);
     // Create a GridPane to hold the checkboxes
-    GridPane teamCheckBoxes = new GridPane();
-    teamCheckBoxes.setHgap(10);
-    teamCheckBoxes.setVgap(10);
-    teamCheckBoxes.setPadding(new Insets(10, 10, 10, 10));
-    teamCheckBoxes.setMinWidth(300);
-    teamCheckBoxes.setMinHeight(100);
-    teamCheckBoxes.setAlignment(Pos.CENTER);
+    GridPane nameCheckBoxes = new GridPane();
+    nameCheckBoxes.setHgap(10);
+    nameCheckBoxes.setVgap(10);
+    nameCheckBoxes.setPadding(new Insets(10, 10, 10, 10));
+    nameCheckBoxes.setMinWidth(300);
+    nameCheckBoxes.setMinHeight(100);
+    nameCheckBoxes.setAlignment(Pos.CENTER);
 
     int row = 0;
     int col = 0;
-    for (String team : teamsList) {
-        CheckBox cb = new CheckBox(team);
-        teamCheckBoxes.add(cb, col, row);
+    for (String name : namesList) {
+        CheckBox cb = new CheckBox(name);
+        nameCheckBoxes.add(cb, col, row);
         col++;
         if (col == 10) {
             col = 0;
@@ -83,12 +83,9 @@ public void start(Stage stage) {
     data.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
     }
 
-    for (DataBase d : dataBaseList) {
-        originalData.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
-        }
-
+   
     Button resetBtn = new Button("Reset Data");
-    teamCheckBoxes.add(resetBtn, 4, row + 2);
+    nameCheckBoxes.add(resetBtn, 4, row + 2);
 
     resetBtn.setOnAction(event -> {
         scatterChart.getData().clear();
@@ -99,7 +96,7 @@ public void start(Stage stage) {
     scatterChart.getData().add(data);
 
     // Add an event handler to each checkbox that updates the scatter plot data when the box is checked or unchecked
-    for (Node node : teamCheckBoxes.getChildren()) {
+    for (Node node : nameCheckBoxes.getChildren()) {
         if (node instanceof CheckBox) {
             CheckBox cb = (CheckBox) node;
             cb.setOnAction(event -> {
@@ -117,43 +114,28 @@ public void start(Stage stage) {
 
     // Create the x-axis for bar chart
     CategoryAxis xAxisBar = new CategoryAxis();
-    xAxisBar.setLabel("Teams");
+    xAxisBar.setLabel("Countrys");
 
     // Create the y-axis for bar chart
     NumberAxis yAxisBar = new NumberAxis();
-    yAxisBar.setLabel("Percentage");
+    yAxisBar.setLabel("Offensive Rating");
 
     // Create the bar chart
     BarChart<String, Number> barChart = new BarChart<>(xAxisBar, yAxisBar);
-    barChart.setTitle("Team Freethrow Percentage");
+    barChart.setTitle("Comparison between Country's offensive and defensive rating");
     barChart.setPrefHeight(500);
 
-    // Create a map to hold the team percentages
-    Map<String, Double> teamPercentages = new HashMap<>();
-
-    for (String team : teamsList) {
-        double total = 0;
-        int count = 0;
-        for (DataBase d : dataBaseList) {
-        if (team.equals(d.getName())) {
-        total += d.getSpi();
-        count++;
-        }
-        }
-        double avg = total / count;
-        teamPercentages.put(team, avg);
-        }
-        
-        // Add the data to the bar chart
-        for (String team : teamPercentages.keySet()) {
-        XYChart.Series<String, Number> teamData = new XYChart.Series<>();
-        teamData.setName(team);
-        teamData.getData().add(new XYChart.Data<>(team, teamPercentages.get(team)));
-        barChart.getData().add(teamData);
-        }
+     // Create a data series to hold the bar chart data
+     XYChart.Series<String, Number> data2 = new XYChart.Series<>();
+     // Add data points to the data series
+     for (DataBase d : dataBaseList) {
+     data2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
+     }
+     // Add the data series to the scatter chart
+     barChart.getData().add(data2);
 
         // Add the checkboxes and scatter chart to the grid
-        teamCheckBoxes.add(scatterChart, 0, row + 1, 3, 1);
+        nameCheckBoxes.add(scatterChart, 0, row + 1, 3, 1);
         
         // Create a tab pane to hold the scatter chart and bar chart
         TabPane tabPane = new TabPane();
@@ -164,13 +146,13 @@ public void start(Stage stage) {
         // Create a VBox to hold the tab pane and checkboxes
         VBox chartContainer = new VBox();
         chartContainer.getChildren().add(tabPane);
-        chartContainer.getChildren().add(teamCheckBoxes);
+        chartContainer.getChildren().add(nameCheckBoxes);
 
         // Create the scene
         Scene scene = new Scene(chartContainer, 1200, 1000);
 
         // Set the stage
-        stage.setTitle("NBA Player Free Throw Percentage");
+        stage.setTitle("Country's SPI Global Ranking");
         stage.setScene(scene);
         stage.show();
     }
