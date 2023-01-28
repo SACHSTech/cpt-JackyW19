@@ -22,12 +22,13 @@ public class CSVReader {
                 String[] values = line.split(",");
                 int rank = Integer.parseInt(values[0]);
                 String name = values[1];
-                String confed = values[2];
-                Double off = Double.parseDouble(values[3]);
-                Double def = Double.parseDouble(values[4]);
-                Double spi = Double.parseDouble(values[5]);
+                Double off = Double.parseDouble(values[2]);
+                Double def = Double.parseDouble(values[3]);
+                Double spi = Double.parseDouble(values[4]);
  
-                data.add(new DataBase(rank, name, confed, off, def,  spi));
+ 
+                // Create new object and add to arraylist
+                data.add(new DataBase(rank, name, off, def,  spi));
               
             }
         } catch (IOException e) {
