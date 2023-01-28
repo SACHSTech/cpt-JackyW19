@@ -13,10 +13,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -28,8 +26,6 @@ public class Main extends Application {
 @Override
 
 public void start(Stage stage) {
-
-    XYChart.Series<Number, Number> originalData = new XYChart.Series<>();
 
     // Create the x-axis for scatter chart
     NumberAxis xAxis = new NumberAxis("Ranking", 0.0d,85.0d, 1.0d );
@@ -111,14 +107,14 @@ public void start(Stage stage) {
             });
         }
     }
-
+    
     // Create the x-axis for bar chart
     CategoryAxis xAxisBar = new CategoryAxis();
     xAxisBar.setLabel("Countrys");
 
     // Create the y-axis for bar chart
     NumberAxis yAxisBar = new NumberAxis();
-    yAxisBar.setLabel("Offensive Rating");
+    yAxisBar.setLabel("Ratings");
 
     // Create the bar chart
     BarChart<String, Number> barChart = new BarChart<>(xAxisBar, yAxisBar);
@@ -127,12 +123,20 @@ public void start(Stage stage) {
 
      // Create a data series to hold the bar chart data
      XYChart.Series<String, Number> data2 = new XYChart.Series<>();
+     //set name for data series 2
+     data2.setName("Offensive Rating");
      // Add data points to the data series
      for (DataBase d : dataBaseList) {
-     data2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
-     }
-     // Add the data series to the scatter chart
-     barChart.getData().add(data2);
+        data2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
+         }
+
+     XYChart.Series<String, Number> data3 = new XYChart.Series<>();
+     data3.setName("Defensive Rating");
+     for (DataBase d : dataBaseList) {
+        data3.getData().add(new XYChart.Data<>(d.getName(), d.getDef()));
+        }
+
+        barChart.getData().addAll(data2, data3);
 
         // Add the checkboxes and scatter chart to the grid
         nameCheckBoxes.add(scatterChart, 0, row + 1, 3, 1);
