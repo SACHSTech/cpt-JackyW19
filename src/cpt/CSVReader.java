@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.io.IOException;
 
 /**
- * A class to read data from freethrow.csv file 
+ * A class to read data from spi_global_rankings csv file 
  */
 public class CSVReader {
     public ArrayList<DataBase> read(String fileName) {
@@ -27,8 +27,6 @@ public class CSVReader {
                 Double def = Double.parseDouble(values[4]);
                 Double spi = Double.parseDouble(values[5]);
  
- 
-                // Create new object and add to arraylist
                 data.add(new DataBase(rank, name, confed, off, def,  spi));
               
             }
