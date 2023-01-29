@@ -104,25 +104,6 @@ public void start(Stage stage) {
 
     // Add the data series to the scatter chart
     scatterChart.getData().add(data);
-
-    // Add an event handler to each checkbox that updates the scatter plot data when the box is checked or unchecked
-    for (Node node : nameCheckBoxes.getChildren()) {
-        if (node instanceof CheckBox) {
-            CheckBox cb = (CheckBox) node;
-            cb.setOnAction(event -> {
-                XYChart.Series<Number, Number> filteredData = new XYChart.Series<>();
-                for (DataBase d : dataBaseList) {
-                    if (cb.isSelected() && cb.getText().equals(d.getName())) {
-                        filteredData.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
-                    }
-                }
-                scatterChart.getData().clear();
-                scatterChart.getData().add(filteredData);
-            });
-            }
-
-            
-        }
     
     
     // Create the x-axis for bar chart
@@ -135,7 +116,7 @@ public void start(Stage stage) {
 
     // Create the bar chart
     BarChart<String, Number> barChart = new BarChart<>(xAxisBar, yAxisBar);
-    barChart.setTitle("Comparison between Country's offensive and defensive rating");
+    barChart.setTitle("Comparison between Team's Offensive and Defensive Rating");
     barChart.setPrefHeight(500);
 
      // Create a data series to hold the bar chart data
@@ -156,32 +137,42 @@ public void start(Stage stage) {
         barChart.getData().addAll(data2, data3);
         
          // Add an event handler to each checkbox that updates the scatter plot data when the box is checked or unchecked
-    for (Node node : nameCheckBoxes.getChildren()) {
-        if (node instanceof CheckBox) {
-            CheckBox cb = (CheckBox) node;
-            cb.setOnAction(event -> {
-                XYChart.Series<String, Number> filteredData2 = new XYChart.Series<>();
-                XYChart.Series<String, Number> filteredData3 = new XYChart.Series<>();
-                for (DataBase d : dataBaseList) {
-                    if (cb.isSelected() && cb.getText().equals(d.getName())) {
-                        filteredData2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
-                        filteredData3.getData().add(new XYChart.Data<>(d.getName(), d.getDef()));
-                        filteredData2.setName("Offensive Rating");
-                        filteredData3.setName("Defensive Rating");
-                    }
-                }
-                barChart.getData().clear();
-                barChart.getData().addAll(filteredData2, filteredData3);
-            });
-            }
+       
 
-    }
+
         // set sizing of the barchart
         barChart.setPrefWidth(600);
         barChart.setPrefHeight(450);
 
         // Add the checkboxes and scatter chart to the grid
         nameCheckBoxes.add(scatterChart, 0, row + 1, 3, 1);
+
+        // Add an event handler to each checkbox that updates the scatter plot data when the box is checked or unchecked
+    for (Node node : nameCheckBoxes.getChildren()) {
+        if (node instanceof CheckBox) {
+            CheckBox cb = (CheckBox) node;
+            cb.setOnAction(event -> {
+                XYChart.Series<Number, Number> filteredData = new XYChart.Series<>();
+                XYChart.Series<String, Number> filteredData2 = new XYChart.Series<>();
+                XYChart.Series<String, Number> filteredData3 = new XYChart.Series<>();
+                for (DataBase d : dataBaseList) {
+                    if (cb.isSelected() && cb.getText().equals(d.getName())) {
+                        filteredData.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
+                        filteredData2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
+                        filteredData3.getData().add(new XYChart.Data<>(d.getName(), d.getDef()));
+                        filteredData2.setName("Offensive Rating");
+                        filteredData3.setName("Defensive Rating");
+                    }
+                }
+                scatterChart.getData().clear();
+                scatterChart.getData().add(filteredData);
+                barChart.getData().clear();
+                barChart.getData().addAll(filteredData2, filteredData3);
+            });
+            }
+
+            
+        }
         
         // Create a tab pane to hold the scatter chart and bar chart
         TabPane tabPane = new TabPane();
