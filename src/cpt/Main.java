@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.xml.namespace.QName;
+
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.chart.BarChart;
@@ -30,20 +33,22 @@ public class Main extends Application {
 
 public void start(Stage stage) {
 
-    // Create the x-axis for scatter chart
+    // x-axis for scatter chart
     NumberAxis xAxis = new NumberAxis("Ranking", 0.0d,81.0d, 1.0d );
 
-    // Create the y-axis for scatter chart
+    // y-axis for scatter chart
     NumberAxis yAxis = new NumberAxis("SPI Rating", 0.0d, 100.0d, 10.0d);
 
     // Create the scatter chart
     ScatterChart<Number, Number> scatterChart = new ScatterChart<>(xAxis, yAxis);
+
+    // title for scatter cahart
     scatterChart.setTitle("Country SPI Rankings");
 
     // Create an object of CSVReader
     CSVReader reader = new CSVReader();
 
-    // Use CSVreader to add data to a list
+    // Use CSVreader to add data to the data base list
     List<DataBase> dataBaseList = reader.read("src/cpt/spi_global_rankings.csv");
 
     // Create a set to hold the unique names
@@ -152,30 +157,37 @@ public void start(Stage stage) {
                 scatterChart.getData().add(filteredData);
                 barChart.getData().clear();
                 barChart.getData().addAll(filteredData2, filteredData3);
-            });
-            }
 
-            
+            });
         }
-        Button updateButton = new Button("Reset Button");
+    }
+        Button updateButton = new Button("Reset");
         nameCheckBoxes.add(updateButton, 4, row + 2);
         updateButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            // Clear the current data from the plot
+
+        // Clear the current data
         scatterChart.getData().clear();
         barChart.getData().clear();
 
-            // Add the original data to the plot
+        // Add the original data
         for (DataBase d : dataBaseList) {
             scatterChart.getData().add(data);
             barChart.getData().addAll(data2, data3);
 
 
+        // Uncheck all the checkboxes
+        for (Node node : nameCheckBoxes.getChildren()) {
+            if (node instanceof CheckBox) {
+                CheckBox cb = (CheckBox) node;
+                cb.setSelected(false);
+            }
         }
     }
+    }
 });
-        
+
         // Create a tab pane to hold the scatter chart and bar chart
         TabPane tabPane = new TabPane();
         Tab scatterTab = new Tab("Scatter Chart", scatterChart);
