@@ -14,14 +14,10 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.chart.BarChart;
@@ -85,10 +81,8 @@ public void start(Stage stage) {
     // Add data points to the data series
     for (DataBase d : dataBaseList) {
     data.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
+    data.setName("Teams Global Rankings vs SPI Rating");
     }
-
-
-
 
     // Add the data series to the scatter chart
     scatterChart.getData().add(data);
@@ -105,32 +99,29 @@ public void start(Stage stage) {
     // Create the bar chart
     BarChart<String, Number> barChart = new BarChart<>(xAxisBar, yAxisBar);
     barChart.setTitle("Comparison between Team's Offensive and Defensive Rating");
-    barChart.setPrefHeight(500);
 
-     // Create a data series to hold the bar chart data
+     // Create the first data series to hold the bar chart data
      XYChart.Series<String, Number> data2 = new XYChart.Series<>();
      //set name for data series 2
-     data2.setName("Offensive Rating");
+     data2.setName("Offensive Rating"); // appear as legend
      // Add data points to the data series
      for (DataBase d : dataBaseList) {
         data2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
          }
-
+    // second data series for bar chart
      XYChart.Series<String, Number> data3 = new XYChart.Series<>();
-     data3.setName("Defensive Rating");
+     // set name for data series 3
+     data3.setName("Defensive Rating"); // appear as legend
      for (DataBase d : dataBaseList) {
         data3.getData().add(new XYChart.Data<>(d.getName(), d.getDef()));
         }
 
         barChart.getData().addAll(data2, data3);
-        
-         // Add an event handler to each checkbox that updates the scatter plot data when the box is checked or unchecked
-       
 
 
         // set sizing of the barchart
         barChart.setPrefWidth(600);
-        barChart.setPrefHeight(450);
+        barChart.setPrefHeight(500);
 
         // Add the checkboxes and scatter chart to the grid
         nameCheckBoxes.add(scatterChart, 0, row + 1, 3, 1);
@@ -148,7 +139,7 @@ public void start(Stage stage) {
                         filteredData.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
                         filteredData2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
                         filteredData3.getData().add(new XYChart.Data<>(d.getName(), d.getDef()));
-                        filteredData.setName(d.getName());
+                        filteredData.setName(d.getName() + " - Rank vs SPI Rating");
                         filteredData2.setName("Offensive Rating");
                         filteredData3.setName("Defensive Rating");
                     }
@@ -181,9 +172,9 @@ public void start(Stage stage) {
         barChart.getData().clear();
 
         // Add the original data
-        for (DataBase d : dataBaseList) {
+
             scatterChart.getData().add(data);
-            barChart.getData().addAll(data2, data3);
+          
 
 
         // Uncheck all the checkboxes
@@ -194,22 +185,42 @@ public void start(Stage stage) {
             }
         }
     }
-    }
 });
-
-        // Create a tab pane to hold the scatter chart and bar chart
+        // Create a TabPane to hold the tabs for the charts
         TabPane tabPane = new TabPane();
-        Tab scatterTab = new Tab("Scatter Chart", scatterChart);
-        Tab barTab = new Tab("Bar Chart", barChart);
-        tabPane.getTabs().addAll(scatterTab, barTab);
 
-        // Create a VBox to hold the tab pane and checkboxes
-        VBox chartContainer = new VBox();
-        chartContainer.getChildren().add(tabPane);
-        chartContainer.getChildren().add(nameCheckBoxes);
+        // Create a tab for the scatter chart
+        Tab scatterTab = new Tab();
+        scatterTab.setText("Scatter Chart");
+        scatterTab.setContent(scatterChart);
+        tabPane.getTabs().add(scatterTab);
+
+        // Create a tab for the bar chart
+        Tab barTab = new Tab();
+        barTab.setText("Bar Chart");
+        barTab.setContent(barChart);
+        tabPane.getTabs().add(barTab);
+
+        // Create a button to switch between the tabs
+        Button switchTabButton = new Button("Switch Chart");
+        switchTabButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+        public void handle(ActionEvent event) {
+                int currentTabIndex = tabPane.getSelectionModel().getSelectedIndex();
+                if (currentTabIndex == 0) {
+                    tabPane.getSelectionModel().select(1);
+                } else {
+                    tabPane.getSelectionModel().select(0);
+                }
+            }
+        });
+
+        VBox chartHolder = new VBox();
+        chartHolder.getChildren().add(tabPane);
+        chartHolder.getChildren().add(nameCheckBoxes);
 
         // Create the scene
-        Scene scene = new Scene(chartContainer, 1200, 1200);
+        Scene scene = new Scene(chartHolder, 1200, 1200);
 
         // Set the stage
         stage.setTitle("Country's SPI Global Ranking");
@@ -221,4 +232,5 @@ public void start(Stage stage) {
     public static void main(String[] args) {
     launch(args);
     }
+
 }
