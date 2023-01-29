@@ -20,6 +20,7 @@ public class CSVReader {
     public ArrayList<DataBase> read(String fileName) {
         // ArrayList to store data
         ArrayList<DataBase> data = new ArrayList<>();
+        // string line empty
         String line;
         
         // buffered reader

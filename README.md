@@ -6,3 +6,8 @@ I chose this topic because I have been a fan of soccer for many years. I have al
 
 Data Source Link: https://projects.fivethirtyeight.com/soccer-predictions/
 
+Course Connections Video Link: https://drive.google.com/file/d/1OKA2Vha8ibcDzf-Z3S5t5x-bpNhIuGA1/view?usp=sharing
+
+Demo Video Link: https://drive.google.com/file/d/1AAmHs8ZyNbrINGixSgp69YR98cPZjah9/view?usp=share_link
+
+

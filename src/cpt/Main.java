@@ -44,6 +44,7 @@ public class Main extends Application {
     
         // title for scatter cahart
         scatterChart.setTitle("Country SPI Rankings");{
+        // set font size
         scatterChart.setStyle("-fx-font-size: 16;");
 
         // Create an object of CSVReader
@@ -104,6 +105,7 @@ public class Main extends Application {
         // Create the bar chart
         BarChart<String, Number> barChart = new BarChart<>(xAxisBar, yAxisBar);
         barChart.setTitle("Comparison Between Team's Offensive and Defensive Rating");
+        // set font size
         barChart.setStyle("-fx-font-size: 11;");
     
          // Create the first data series to hold the bar chart data
