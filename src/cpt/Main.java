@@ -43,8 +43,9 @@ public class Main extends Application {
         ScatterChart<Number, Number> scatterChart = new ScatterChart<>(xAxis, yAxis);
     
         // title for scatter cahart
-        scatterChart.setTitle("Country SPI Rankings");
-    
+        scatterChart.setTitle("Country SPI Rankings");{
+        scatterChart.setStyle("-fx-font-size: 16;");
+
         // Create an object of CSVReader
         CSVReader reader = new CSVReader();
     
@@ -102,7 +103,8 @@ public class Main extends Application {
     
         // Create the bar chart
         BarChart<String, Number> barChart = new BarChart<>(xAxisBar, yAxisBar);
-        barChart.setTitle("Comparison between Team's Offensive and Defensive Rating");
+        barChart.setTitle("Comparison Between Team's Offensive and Defensive Rating");
+        barChart.setStyle("-fx-font-size: 11;");
     
          // Create the first data series to hold the bar chart data
          XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<>();
@@ -238,4 +240,5 @@ public class Main extends Application {
             stage.show();
         }
 
+    }
 }
