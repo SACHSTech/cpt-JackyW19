@@ -37,7 +37,7 @@ public class Main extends Application {
         NumberAxis xAxis = new NumberAxis("Ranking", 0.0d,81.0d, 1.0d );
     
         // y-axis for scatter chart
-        NumberAxis yAxis = new NumberAxis("SPI Rating", 0.0d, 100.0d, 10.0d);
+        NumberAxis yAxis = new NumberAxis("SPI Rating (Soccer Power Index)", 0.0d, 100.0d, 10.0d);
     
         // Create the scatter chart
         ScatterChart<Number, Number> scatterChart = new ScatterChart<>(xAxis, yAxis);
@@ -85,7 +85,7 @@ public class Main extends Application {
         // Add data points to the data series
         for (DataBase d : dataBaseList) {
         data.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
-        data.setName("Teams Global Rankings vs SPI Rating");
+        data.setName("Country's Global Rankings vs SPI Rating");
         }
     
         // Add the data series to the scatter chart
@@ -144,7 +144,7 @@ public class Main extends Application {
                             filteredData.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
                             filtereddataSeries2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
                             filtereddataSeries3.getData().add(new XYChart.Data<>(d.getName(), d.getDef()));
-                            filteredData.setName(d.getName() + " - Rank vs SPI Rating");
+                            filteredData.setName(d.getName() + " - Rank vs Soccer Power Index Rating");
                             filtereddataSeries2.setName("Offensive Rating");
                             filtereddataSeries3.setName("Defensive Rating");
                         }
@@ -233,7 +233,7 @@ public class Main extends Application {
             Scene scene = new Scene(chartHolder, 1200, 1200);
     
             // Set the stage
-            stage.setTitle("Country's SPI Global Ranking");
+            stage.setTitle("Country's Soccer Power Index Global Ranking");
             stage.setScene(scene);
             stage.show();
         }
