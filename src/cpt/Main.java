@@ -82,24 +82,7 @@ public void start(Stage stage) {
     data.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
     }
 
-   
 
-
-    
-    Button updateButton = new Button("Reset Button");
-    nameCheckBoxes.add(updateButton, 4, row + 2);
-    updateButton.setOnAction(new EventHandler<ActionEvent>() {
-    @Override
-    public void handle(ActionEvent event) {
-        // Clear the current data from the plot
-        scatterChart.getData().clear();
-
-        // Add the original data to the plot
-        for (DataBase d : dataBaseList) {
-            data.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
-        }
-    }
-});
 
 
     // Add the data series to the scatter chart
@@ -160,6 +143,7 @@ public void start(Stage stage) {
                         filteredData.getData().add(new XYChart.Data<>(d.getRank(), d.getSpi()));
                         filteredData2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
                         filteredData3.getData().add(new XYChart.Data<>(d.getName(), d.getDef()));
+                        filteredData.setName(d.getName());
                         filteredData2.setName("Offensive Rating");
                         filteredData3.setName("Defensive Rating");
                     }
@@ -173,6 +157,24 @@ public void start(Stage stage) {
 
             
         }
+        Button updateButton = new Button("Reset Button");
+        nameCheckBoxes.add(updateButton, 4, row + 2);
+        updateButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            // Clear the current data from the plot
+        scatterChart.getData().clear();
+        barChart.getData().clear();
+
+            // Add the original data to the plot
+        for (DataBase d : dataBaseList) {
+            scatterChart.getData().add(data);
+            barChart.getData().addAll(data2, data3);
+
+
+        }
+    }
+});
         
         // Create a tab pane to hold the scatter chart and bar chart
         TabPane tabPane = new TabPane();
