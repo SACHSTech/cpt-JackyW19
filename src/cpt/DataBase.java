@@ -1,5 +1,11 @@
 package cpt;
 
+/**
+ * DataBase class is to store information on each data point
+ * 
+ * @author J. Wang
+ */
+
 public class DataBase {
     // Instance variables
     private int rank;
@@ -8,6 +14,14 @@ public class DataBase {
     private double def;
     private double spi;
 
+    /**
+     * Constructer
+     * @param rank rank of the team
+     * @param name name of the team
+     * @param off offensive rating of the team
+     * @param def defensive rating of the team
+     * @param spi spi rating of the team
+     */
     public DataBase(int rank, String name, Double off, Double def, Double spi) {
         this.rank = rank;
         this.name = name;
@@ -16,32 +30,47 @@ public class DataBase {
         this.spi = spi;
     }
  
-    // getter methods
- 
- 
+    /**
+     * Getter method for the rank variable
+     * @return rank
+     */
     public int getRank(){
-        return this.rank;
+        return rank;
     }
  
 
+    /**
+     * Getter method for the name variable
+     * @return name
+     */
     public String getName(){
-        return this.name;
+        return name;
     }
  
- 
- 
+    /**
+     * Getter method for the off variable
+     * @return off
+     */
     public double getOff(){
-        return this.off;
+        return off;
     }
  
  
+    /**
+     * Getter method for the def variable
+     * @return def
+     */
     public double getDef(){
-        return this.def;
+        return def;
     }
  
  
+    /**
+     * Getter method for the spi variable
+     * @return spi
+     */
     public double getSpi(){
-        return this.spi;
+        return spi;
     }
     
  
