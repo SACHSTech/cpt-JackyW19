@@ -174,7 +174,23 @@ public void start(Stage stage) {
         // Add the original data
 
             scatterChart.getData().add(data);
-          
+            // Create the first data series to hold the bar chart data
+            XYChart.Series<String, Number> data2 = new XYChart.Series<>();
+            //set name for data series 2
+            data2.setName("Offensive Rating"); // appear as legend
+            // Add data points to the data series
+            for (DataBase d : dataBaseList) {
+                data2.getData().add(new XYChart.Data<>(d.getName(), d.getOff()));
+            }
+            // second data series for bar chart
+            XYChart.Series<String, Number> data3 = new XYChart.Series<>();
+            // set name for data series 3
+            data3.setName("Defensive Rating"); // appear as legend
+            for (DataBase d : dataBaseList) {
+                data3.getData().add(new XYChart.Data<>(d.getName(), d.getDef()));
+                }
+
+            barChart.getData().addAll(data2, data3);
 
 
         // Uncheck all the checkboxes
