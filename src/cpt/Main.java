@@ -158,6 +158,15 @@ public void start(Stage stage) {
                 barChart.getData().clear();
                 barChart.getData().addAll(filteredData2, filteredData3);
 
+                // Uncheck all the other checkboxes if another checkbox is checked
+            for (Node otherNode : nameCheckBoxes.getChildren()) {
+                if (otherNode instanceof CheckBox) {
+                    CheckBox otherCb = (CheckBox) otherNode;
+                    if (!otherCb.equals(cb)) {
+                        otherCb.setSelected(false);
+                    }
+                }
+            }
             });
         }
     }
